@@ -223,12 +223,16 @@ class TimerRefresh extends StatefulWidget {
 
 class _TimerRefreshState extends State<TimerRefresh>
     with SingleTickerProviderStateMixin {
-  late final Ticker _ticker = createTicker(_onTick);
+  late final Ticker _ticker;
   Duration _last = Duration.zero;
 
   @override
   void initState() {
     super.initState();
+    // If declared as a `late final` field initializer, it would be lazily
+    // created on first access, which might happen in dispose() when the
+    // context is already deactivated → "deactivated widget ancestor" error.
+    _ticker = createTicker(_onTick);
     if (widget.enabled) _ticker.start();
   }
 

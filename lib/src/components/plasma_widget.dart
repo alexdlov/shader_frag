@@ -100,9 +100,11 @@ class _PlasmaState extends State<PlasmaWidget>
   @override
   Widget build(BuildContext context) {
     if (_painter == null) return const SizedBox.expand();
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(widget.borderRadius),
-      child: CustomPaint(painter: _painter, child: const SizedBox.expand()),
+    return RepaintBoundary(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(widget.borderRadius),
+        child: CustomPaint(painter: _painter, child: const SizedBox.expand()),
+      ),
     );
   }
 }

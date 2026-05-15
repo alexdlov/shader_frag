@@ -105,25 +105,27 @@ class _HolographicState extends State<HolographicWidget>
   @override
   Widget build(BuildContext context) {
     if (_painter == null) return const SizedBox.expand();
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(widget.borderRadius),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final size = Size(constraints.maxWidth, constraints.maxHeight);
-          return MouseRegion(
-            // Desktop: mouse hover updates light direction
-            onHover: (event) => _updateLight(event.localPosition, size),
-            child: GestureDetector(
-              // Mobile: drag updates light direction
-              onPanUpdate: (d) => _updateLight(d.localPosition, size),
-              onPanEnd: (_) => _lightDir.value = Offset.zero,
-              child: CustomPaint(
-                painter: _painter,
-                child: const SizedBox.expand(),
+    return RepaintBoundary(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(widget.borderRadius),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final size = Size(constraints.maxWidth, constraints.maxHeight);
+            return MouseRegion(
+              // Desktop: mouse hover updates light direction
+              onHover: (event) => _updateLight(event.localPosition, size),
+              child: GestureDetector(
+                // Mobile: drag updates light direction
+                onPanUpdate: (d) => _updateLight(d.localPosition, size),
+                onPanEnd: (_) => _lightDir.value = Offset.zero,
+                child: CustomPaint(
+                  painter: _painter,
+                  child: const SizedBox.expand(),
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -98,9 +98,6 @@ class _FrostedGlassState extends State<FrostedGlassWidget>
   ui.FragmentShader? _shader;
   CustomPainter? _painter;
 
-  // Pixel ratio of the screen — updated in build() via MediaQuery
-  double _pixelRatio = 1.0;
-
   // Capture frequency control: ~5 fps (not every frame — toImageSync is expensive)
   Duration _lastCapture = Duration.zero;
   static const _captureInterval = Duration(milliseconds: 200);
@@ -157,7 +154,7 @@ class _FrostedGlassState extends State<FrostedGlassWidget>
 
     try {
       // pixelRatio: 1.0 — logical pixels, matches shader UV coordinates
-      final image = rb.toImageSync(pixelRatio: _pixelRatio);
+      final image = rb.toImageSync(pixelRatio: 1.0);
       final old = _bgImage.value;
       _bgImage.value = image; // notifies painter → repaint
       old?.dispose(); // free GPU memory of the old frame
@@ -186,9 +183,6 @@ class _FrostedGlassState extends State<FrostedGlassWidget>
 
   @override
   Widget build(BuildContext context) {
-    // Cache pixel ratio from context — cannot call in _onTick directly
-    _pixelRatio = MediaQuery.of(context).devicePixelRatio;
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(widget.borderRadius),
       child: Stack(
