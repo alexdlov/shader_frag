@@ -41,6 +41,11 @@ flutter:
     - lib/shaders/holographic.frag
     - lib/shaders/liquid_progress.frag
     - lib/shaders/frosted_glass.frag
+    - lib/shaders/hourglass.frag
+
+  assets:
+    - assets/textures/sand.png
+    - assets/textures/hourglass_glass.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
